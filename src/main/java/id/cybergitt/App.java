@@ -18,18 +18,19 @@ public class App {
         run_hashmap_slot(max_size);
     }
     
-    private static void showMenu(){ 
+    private static void showMenu(){
         System.out.println("\nMenu:");
-        System.out.println("   create_book_shelf(total_shelf) -> create_book_shelf 5");
-        System.out.println("   put(title, author) -> put AClashOfKings GeorgeRRMartin");
-        System.out.println("   remove(slot) -> remove 4");
-        System.out.println("   list");
-        System.out.println("   find-by-author(author) -> find-by-author JKRowling");
-        System.out.println("   find-by-title(title) -> find-by-title AGameOfThrones");
-        System.out.println("   titles-by-author(author) -> titles-by-author JKRowling");
-        System.out.println("   help");
-        System.out.println("   exit");
-        System.out.print("Enter your command:  ");
+        String leftAlignFormat = "   %-35s %-35s %n";
+        System.out.format(leftAlignFormat, "   create_book_shelf(total_shelf)", "create_book_shelf 5");
+        System.out.format(leftAlignFormat, "   put(title, author)", "put AClashOfKings GeorgeRRMartin");
+        System.out.format(leftAlignFormat, "   remove(slot)", "remove 4");
+        System.out.format(leftAlignFormat, "   list", "");
+        System.out.format(leftAlignFormat, "   find-by-author(author)", "find-by-author JKRowling");
+        System.out.format(leftAlignFormat, "   find-by-title(title)", "find-by-title AGameOfThrones");
+        System.out.format(leftAlignFormat, "   titles-by-author(author)", "titles-by-author JKRowling");
+        System.out.format(leftAlignFormat, "   help", "");
+        System.out.format(leftAlignFormat, "   exit", "");
+        System.out.println("Enter your command:  ");
     }
     
     private static void runByFile(){
