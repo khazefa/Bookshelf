@@ -3,11 +3,14 @@ package id.cybergitt;
 import id.cybergitt.bookshelf.controllers.BookShelf;
 import id.cybergitt.bookshelf.helpers.DigiHelper;
 import id.cybergitt.bookshelf.models.Book;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Hello world!
  */
 public class App {
+    static BookShelf shelf = new BookShelf();
     /**
      * Says hello to the world.
      * @param args The arguments of the program.
@@ -33,8 +36,44 @@ public class App {
         System.out.println("Enter your command:  ");
     }
     
-    private static void runByFile(){
-        //to do code here
+    public static void runByFile(String command){
+        DigiHelper helper = new DigiHelper();
+        List cmd = new ArrayList();
+        cmd = helper.commandSplitter(command);
+        
+        if(cmd.get(0).toString().equalsIgnoreCase("create_book_shelf")){
+            int slot_quota = Integer.parseInt(cmd.get(1).toString());
+            shelf.setMax_size(5);
+            System.out.println("Created a book shelf with " +shelf.totalShelves()+ " slots");
+        }
+        else if(cmd.get(0).toString().equalsIgnoreCase("put")){
+            if (shelf.shelvesSize() <= shelf.getMax_size()){
+                int get_slot = shelf.findEmptySlot();
+                if (get_slot > 0){
+                    shelf.updateSlot(get_slot, new Book(cmd.get(1).toString(), cmd.get(2).toString()));
+                } else {
+                    shelf.addSlot(new Book(cmd.get(1).toString(), cmd.get(2).toString()));
+                }
+            } else {
+                System.out.println("Book shelf is full");
+            }
+        }
+        else if(cmd.get(0).toString().equalsIgnoreCase("remove")) {
+            int pos = Integer.parseInt(cmd.get(1).toString());
+            shelf.removeSlot(pos);
+        }
+        else if(cmd.get(0).toString().equalsIgnoreCase("list")) {
+            shelf.getList();
+        }
+        else if(cmd.get(0).toString().equalsIgnoreCase("find-by-author")) {
+            shelf.findByAuthor(cmd.get(1).toString());
+        }
+        else if(cmd.get(0).toString().equalsIgnoreCase("find-by-title")) {
+            shelf.findByTitle(cmd.get(1).toString());
+        }
+        else if(cmd.get(0).toString().equalsIgnoreCase("titles-by-author")) {
+            shelf.titleByAuthor(cmd.get(1).toString());
+        }
     }
     
     private static void runByInput(){
