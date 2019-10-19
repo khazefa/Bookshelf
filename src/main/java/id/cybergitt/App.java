@@ -75,7 +75,7 @@ public class App {
         System.out.format(leftAlignFormat, "   exit", "");
     }
     
-    public static void runByFile(String command){
+    private static void runByFile(String command){
         DigiHelper helper = new DigiHelper();
         List cmd = new ArrayList();
         cmd = helper.commandSplitter(command);
@@ -90,13 +90,25 @@ public class App {
                 int get_slot = shelf.findEmptySlot();
                 if (get_slot > 0){
                     try {
-                        shelf.updateSlot(get_slot, new Book(cmd.get(1).toString(), cmd.get(2).toString()));
+                        String title = helper.camelCaseChecker(cmd.get(1).toString());
+                        String author = helper.camelCaseChecker(cmd.get(2).toString());
+                        if (shelf.isDuplicateTitle(title)){
+                            System.out.println("Cannot add more book with same title");
+                        } else {
+                            shelf.updateSlot(get_slot, new Book(title, author));
+                        }
                     } catch (Exception e) {
                         System.err.println("Error: "+e.getMessage());
                     }
                 } else {
                     try {
-                        shelf.addSlot(new Book(cmd.get(1).toString(), cmd.get(2).toString()));
+                        String title = helper.camelCaseChecker(cmd.get(1).toString());
+                        String author = helper.camelCaseChecker(cmd.get(2).toString());
+                        if (shelf.isDuplicateTitle(title)){
+                            System.out.println("Cannot add more book with same title");
+                        } else {
+                            shelf.addSlot(new Book(title, author));
+                        }
                     } catch (Exception e) {
                         System.err.println("Error: "+e.getMessage());
                     }
@@ -126,7 +138,7 @@ public class App {
         }
     }
     
-    public static void runByInput(String command){
+    private static void runByInput(String command){
         DigiHelper helper = new DigiHelper();
         List cmd = new ArrayList();
         cmd = helper.commandSplitter(command);
@@ -140,9 +152,29 @@ public class App {
             if (shelf.shelvesSize() <= shelf.getMax_size()){
                 int get_slot = shelf.findEmptySlot();
                 if (get_slot > 0){
-                    shelf.updateSlot(get_slot, new Book(cmd.get(1).toString(), cmd.get(2).toString()));
+                    try {
+                        String title = helper.camelCaseChecker(cmd.get(1).toString());
+                        String author = helper.camelCaseChecker(cmd.get(2).toString());
+                        if (shelf.isDuplicateTitle(title)){
+                            System.out.println("Cannot add more book with same title");
+                        } else {
+                            shelf.updateSlot(get_slot, new Book(title, author));
+                        }
+                    } catch (Exception e) {
+                        System.err.println("Error: "+e.getMessage());
+                    }
                 } else {
-                    shelf.addSlot(new Book(cmd.get(1).toString(), cmd.get(2).toString()));
+                    try {
+                        String title = helper.camelCaseChecker(cmd.get(1).toString());
+                        String author = helper.camelCaseChecker(cmd.get(2).toString());
+                        if (shelf.isDuplicateTitle(title)){
+                            System.out.println("Cannot add more book with same title");
+                        } else {
+                            shelf.addSlot(new Book(title, author));
+                        }
+                    } catch (Exception e) {
+                        System.err.println("Error: "+e.getMessage());
+                    }
                 }
             } else {
                 System.out.println("Book shelf is full");
@@ -173,38 +205,5 @@ public class App {
         else{
             System.out.println("Command not found!");
         }
-    }
-    
-    private static void run_hashmap_slot(int max_size){ // test case
-        DigiHelper helper = new DigiHelper();
-        BookShelf shelf = new BookShelf(max_size);
-        System.out.println("Created a book shelf with " +shelf.totalShelves()+ " slots");
-
-        shelf.addSlot(new Book("HarryPotterAndTheGobletOfFire", "JKRowling"));
-        shelf.addSlot(new Book("TheMazeRunner", "JamesDashner"));
-        shelf.addSlot(new Book("HarryPotterAndTheOrderOfThePhoenix", "JKRowling"));
-        shelf.addSlot(new Book("HarryPotterAndTheDeathlyHallows", "JKRowling"));
-//        try {
-//            shelf.addSlot(new Book("", ""));
-//        } catch (Exception e) {
-//            System.err.println("Error: "+e.getMessage());
-//        }
-        shelf.addSlot(new Book("TheHungerGames", "SuzanneCollins"));
-        shelf.removeSlot(4);
-        
-        shelf.getList();
-        
-        int pos_slot = shelf.findEmptySlot();
-        System.out.println("Get empty slot at " + pos_slot);
-        shelf.updateSlot(pos_slot, new Book("AGameOfThrones", "GeorgeRRMartin"));
-        shelf.addSlot(new Book("AClashOfKings", "GeorgeRRMartin"));
-       
-        shelf.getList();
-        
-        shelf.findByAuthor("JKRowling");
-        shelf.findByTitle("AGameOfThrones");
-        shelf.titleByAuthor("JKRowling");
-        shelf.titleByAuthor("UdiDahan");
-        
     }
 }
