@@ -22,19 +22,11 @@ public class DigiHelper {
         
     }
     
-    public boolean cmdChecker(String input){
-        if (input.trim().matches(cmdPattern)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    
-    public boolean camelCaseChecker(String input){
+    public String camelCaseChecker(String input){
         if (input.trim().matches(camelCasePattern)) {
-            return true;
+            return input;
         } else {
-            return false;
+            return "--";
         }
     }
     
