@@ -20,24 +20,38 @@ public class BookShelf {
     HashMap<Integer, Book> shelves = new HashMap<>();
 
     public BookShelf() {
+        this.max_size = getMax_size();
     }
     
     public BookShelf(int max_size) {
         this.max_size = max_size;
     }
+
+    public int getMax_size() {
+        return max_size;
+    }
+
+    public void setMax_size(int max_size) {
+        this.max_size = max_size;
+    }
     
     public int totalShelves(){
-        return max_size;
+        return getMax_size();
+    }
+    
+    public int shelvesSize(){
+        return shelves.size() == 0 || shelves.isEmpty() ? 0 : shelves.size();
     }
     
     public void addSlot(Book b){
         String msg = "";
-        if (max_size > 0){
-            if( shelves.size() < max_size ){
+        if (getMax_size() > 0){
+            if( shelves.size() < getMax_size() ){
                 int slot = shelves.size() + 1;
                 shelves.put(slot, b);
                 msg = "Allocated slot number: " + slot;
-            } else {
+            }
+            else {
                 msg = "Book shelf is full";
             }
         } else{
@@ -94,7 +108,9 @@ public class BookShelf {
             for (Map.Entry<Integer, Book> entry : shelves.entrySet()) {
                 Integer key = entry.getKey();
                 Book value = entry.getValue();
-                System.out.format(leftAlignFormat, key, value.getTitle(), value.getAuthor());
+                if (!value.getTitle().equalsIgnoreCase("--")){
+                    System.out.format(leftAlignFormat, key, value.getTitle(), value.getAuthor());
+                }
             }
         } else {
             System.out.format(leftAlignFormat, 0, "--", "--");
