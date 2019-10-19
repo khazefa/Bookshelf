@@ -3,6 +3,10 @@ package id.cybergitt;
 import id.cybergitt.bookshelf.controllers.BookShelf;
 import id.cybergitt.bookshelf.helpers.DigiHelper;
 import id.cybergitt.bookshelf.models.Book;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +20,28 @@ public class App {
      * @param args The arguments of the program.
      */
     public static void main(String[] args) {
-        showMenu();
-        int max_size = 5;
-        run_hashmap_slot(max_size);
+        File myFile = null;
+        
+        if (0 < args.length) { // if args have parameters
+            String myFileName = args[0];
+            myFile = new File(myFileName);
+            if (myFile.isFile()) { // only accept file reading
+                if (myFile.exists()){
+                    try {
+                        List<String> allLines = Files.readAllLines(Paths.get(myFile.getPath()));
+			for (String line : allLines) {
+                            runByFile(line);
+			}
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        } else { // if args doesnt have parameters
+            showMenu();
+            int max_size = 5;
+            run_hashmap_slot(max_size);
+        }
     }
     
     private static void showMenu(){
@@ -50,9 +73,17 @@ public class App {
             if (shelf.shelvesSize() <= shelf.getMax_size()){
                 int get_slot = shelf.findEmptySlot();
                 if (get_slot > 0){
-                    shelf.updateSlot(get_slot, new Book(cmd.get(1).toString(), cmd.get(2).toString()));
+                    try {
+                        shelf.updateSlot(get_slot, new Book(cmd.get(1).toString(), cmd.get(2).toString()));
+                    } catch (Exception e) {
+                        System.err.println("Error: "+e.getMessage());
+                    }
                 } else {
-                    shelf.addSlot(new Book(cmd.get(1).toString(), cmd.get(2).toString()));
+                    try {
+                        shelf.addSlot(new Book(cmd.get(1).toString(), cmd.get(2).toString()));
+                    } catch (Exception e) {
+                        System.err.println("Error: "+e.getMessage());
+                    }
                 }
             } else {
                 System.out.println("Book shelf is full");
@@ -73,6 +104,9 @@ public class App {
         }
         else if(cmd.get(0).toString().equalsIgnoreCase("titles-by-author")) {
             shelf.titleByAuthor(cmd.get(1).toString());
+        }
+        else{
+            System.out.println("Command not found!");
         }
     }
     
