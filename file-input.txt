@@ -1,0 +1,14 @@
+create_book_shelf 5
+put HarryPotterAndTheGobletOfFire JKRowling
+put TheMazeRunner JamesDashner
+put HarryPotterAndTheOrderOfThePhoenix JKRowling
+put HarryPotterAndTheDeathlyHallows JKRowling
+put TheHungerGames SuzanneCollins
+remove 4
+list
+put AGameOfThrones GeorgeRRMartin
+put AClashOfKings GeorgeRRMartin
+find-by-author JKRowling
+find-by-title AGameOfThrones
+titles-by-author JKRowling
+titles-by-author UdiDahan
