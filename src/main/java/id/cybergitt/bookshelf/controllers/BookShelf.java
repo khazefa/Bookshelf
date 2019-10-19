@@ -137,6 +137,17 @@ public class BookShelf {
         return position;
     }
     
+    public boolean isDuplicateTitle(String title){
+        for (Map.Entry<Integer, Book> entry : shelves.entrySet()) {
+            Integer key = entry.getKey();
+            Book value = entry.getValue();
+            if (title.equalsIgnoreCase(value.getTitle())){
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public void findByTitle(String title){
         List<Integer> arr = new ArrayList<Integer>();
         for (Map.Entry<Integer, Book> entry : shelves.entrySet()) {
